@@ -15,4 +15,10 @@ public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long
             LocalDate dataFine,
             LocalDate dataInizio
     );
+
+    boolean existsByAutoIdAndDataInizioLessThanEqualAndDataFineGreaterThanEqual(
+            Long autoId,
+            LocalDate dataFine,
+            LocalDate dataInizio
+    );
 }

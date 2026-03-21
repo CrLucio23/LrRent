@@ -3,16 +3,21 @@ package com.lrrent.backend.service;
 import com.lrrent.backend.entity.Auto;
 import com.lrrent.backend.repository.AutoRepository;
 import org.springframework.stereotype.Service;
-
+import com.lrrent.backend.repository.PrenotazioneRepository;
+import java.time.LocalDate;
+import java.util.stream.Collectors;
 import java.util.List;
 
 @Service
 public class AutoService {
 
     private final AutoRepository autoRepository;
+    private final PrenotazioneRepository prenotazioneRepository;
 
-    public AutoService(AutoRepository autoRepository) {
+
+    public AutoService(AutoRepository autoRepository, PrenotazioneRepository prenotazioneRepository) {
         this.autoRepository = autoRepository;
+        this.prenotazioneRepository = prenotazioneRepository;
     }
 
     public List<Auto> getAll() {
@@ -63,5 +68,19 @@ public class AutoService {
         return autoRepository.findAll();
     }
 
+    public List<Auto> findDisponibili(LocalDate dataInizio, LocalDate dataFine) {
+
+        return autoRepository.findAll().stream()
+                .filter(auto -> {
+                    boolean occupata = prenotazioneRepository
+                            .existsByAutoIdAndDataInizioLessThanEqualAndDataFineGreaterThanEqual(
+                                    auto.getId(),
+                                    dataFine,
+                                    dataInizio
+                            );
+                    return !occupata;
+                })
+                .collect(Collectors.toList());
+    }
 
 }
