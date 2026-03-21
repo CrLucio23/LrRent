@@ -6,6 +6,7 @@ import com.lrrent.backend.entity.Prenotazione;
 import com.lrrent.backend.repository.AutoRepository;
 import com.lrrent.backend.repository.PrenotazioneRepository;
 import org.springframework.stereotype.Service;
+import com.lrrent.backend.dto.PrenotazioneResponse;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,15 +22,21 @@ public class PrenotazioneService {
         this.autoRepository = autoRepository;
     }
 
-    public List<Prenotazione> getAll() {
-        return prenotazioneRepository.findAll();
+    public List<PrenotazioneResponse> getAll() {
+        return prenotazioneRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
-    public List<Prenotazione> getByAutoId(Long autoId) {
-        return prenotazioneRepository.findByAutoId(autoId);
+    public List<PrenotazioneResponse> getByAutoId(Long autoId) {
+        return prenotazioneRepository.findByAutoId(autoId)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
-    public Prenotazione create(PrenotazioneRequest request) {
+    public PrenotazioneResponse create(PrenotazioneRequest request) {
         if (request.getDataInizio() == null || request.getDataFine() == null) {
             throw new RuntimeException("Le date sono obbligatorie");
         }
@@ -69,10 +76,25 @@ public class PrenotazioneService {
                 .auto(auto)
                 .build();
 
-        return prenotazioneRepository.save(prenotazione);
+        Prenotazione saved = prenotazioneRepository.save(prenotazione);
+        return mapToResponse(saved);
     }
 
     public void delete(Long id) {
         prenotazioneRepository.deleteById(id);
+    }
+
+    private PrenotazioneResponse mapToResponse(Prenotazione prenotazione) {
+        return PrenotazioneResponse.builder()
+                .id(prenotazione.getId())
+                .nomeCliente(prenotazione.getNomeCliente())
+                .cognomeCliente(prenotazione.getCognomeCliente())
+                .emailCliente(prenotazione.getEmailCliente())
+                .dataInizio(prenotazione.getDataInizio())
+                .dataFine(prenotazione.getDataFine())
+                .autoId(prenotazione.getAuto().getId())
+                .autoMarca(prenotazione.getAuto().getMarca())
+                .autoModello(prenotazione.getAuto().getModello())
+                .build();
     }
 }

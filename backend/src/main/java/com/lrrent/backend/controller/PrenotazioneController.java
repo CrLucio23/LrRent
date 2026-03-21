@@ -1,15 +1,15 @@
 package com.lrrent.backend.controller;
 
 import com.lrrent.backend.dto.PrenotazioneRequest;
-import com.lrrent.backend.entity.Prenotazione;
+import com.lrrent.backend.dto.PrenotazioneResponse;
 import com.lrrent.backend.service.PrenotazioneService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/prenotazioni")
-@CrossOrigin
 public class PrenotazioneController {
 
     private final PrenotazioneService prenotazioneService;
@@ -19,17 +19,17 @@ public class PrenotazioneController {
     }
 
     @GetMapping
-    public List<Prenotazione> getAll() {
+    public List<PrenotazioneResponse> getAll() {
         return prenotazioneService.getAll();
     }
 
     @GetMapping("/auto/{autoId}")
-    public List<Prenotazione> getByAuto(@PathVariable Long autoId) {
+    public List<PrenotazioneResponse> getByAuto(@PathVariable Long autoId) {
         return prenotazioneService.getByAutoId(autoId);
     }
 
     @PostMapping
-    public Prenotazione create(@RequestBody PrenotazioneRequest request) {
+    public PrenotazioneResponse create(@Valid @RequestBody PrenotazioneRequest request) {
         return prenotazioneService.create(request);
     }
 
