@@ -33,7 +33,7 @@ public class AutoService {
     }
 
     public Auto update(Long id, Auto updatedAuto) {
-
+        Auto auto = getById(id);
 
         auto.setMarca(updatedAuto.getMarca());
         auto.setModello(updatedAuto.getModello());
@@ -45,4 +45,23 @@ public class AutoService {
 
         return autoRepository.save(auto);
     }
+
+    public List<Auto> filter(Boolean disponibile, String carburante, Double prezzoMax) {
+
+        if (disponibile != null) {
+            return autoRepository.findByDisponibile(disponibile);
+        }
+
+        if (carburante != null) {
+            return autoRepository.findByCarburante(carburante);
+        }
+
+        if (prezzoMax != null) {
+            return autoRepository.findByPrezzoGiornalieroLessThanEqual(prezzoMax);
+        }
+
+        return autoRepository.findAll();
+    }
+
+
 }

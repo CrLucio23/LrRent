@@ -42,4 +42,13 @@ public class AutoController {
         return autoService.update(id, auto);
     }
 
+    @GetMapping("/filter")
+    public List<Auto> filter(
+            @RequestParam(required = false) Boolean disponibile,
+            @RequestParam(required = false) String carburante,
+            @RequestParam(required = false) Double prezzoMax
+    ) {
+        return autoService.filter(disponibile, carburante, prezzoMax);
+    }
+
 }
