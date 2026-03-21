@@ -1,7 +1,10 @@
 package com.lrrent.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "auto")
@@ -23,4 +26,8 @@ public class Auto {
     private String cambio;
     private Double prezzoGiornaliero;
     private Boolean disponibile;
+
+    @OneToMany(mappedBy = "auto", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Prenotazione> prenotazioni;
 }
