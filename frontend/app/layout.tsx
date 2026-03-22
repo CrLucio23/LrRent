@@ -4,8 +4,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'LrRent | Noleggio Auto',
-  description: 'Frontend Next.js per la piattaforma di noleggio auto LrRent.',
+  title: 'LrRent | Noleggio Auto'
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -36,7 +36,7 @@ export default function HomePage() {
             <p>Catalogo, dettaglio auto, prenotazione e pagina contatti già pronti.</p>
           </div>
           <Link href="/catalogo" className="btn btn-primary">
-            Apri il frontend
+            Consulta il catalogo
           </Link>
         </div>
       </section>

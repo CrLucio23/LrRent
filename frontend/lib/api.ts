@@ -41,7 +41,6 @@ export async function getAvailableAuto(dataInizio: string, dataFine: string): Pr
 export async function getFilteredAuto(filters: {
   disponibile?: boolean;
   carburante?: string;
-  prezzoMax?: string;
 }): Promise<Auto[]> {
   const params = new URLSearchParams();
 
@@ -51,10 +50,6 @@ export async function getFilteredAuto(filters: {
 
   if (filters.carburante) {
     params.set('carburante', filters.carburante);
-  }
-
-  if (filters.prezzoMax) {
-    params.set('prezzoMax', filters.prezzoMax);
   }
 
   const endpoint = params.toString()

@@ -8,7 +8,6 @@ import { Auto } from '@/lib/types';
 const initialFilters = {
   disponibile: 'all',
   carburante: '',
-  prezzoMax: '',
   dataInizio: '',
   dataFine: '',
 };
@@ -51,7 +50,6 @@ export function CatalogClient() {
       const data = await getFilteredAuto({
         disponibile: filters.disponibile === 'all' ? undefined : filters.disponibile === 'true',
         carburante: filters.carburante || undefined,
-        prezzoMax: filters.prezzoMax || undefined,
       });
 
       setAutos(data);
@@ -84,26 +82,19 @@ export function CatalogClient() {
             </select>
           </label>
 
-          <label>
-            Carburante
-            <input
-              type="text"
-              placeholder="Es. Diesel"
-              value={filters.carburante}
-              onChange={(event) => setFilters((prev) => ({ ...prev, carburante: event.target.value }))}
-            />
-          </label>
-
-          <label>
-            Prezzo massimo
-            <input
-              type="number"
-              min="0"
-              placeholder="Es. 90"
-              value={filters.prezzoMax}
-              onChange={(event) => setFilters((prev) => ({ ...prev, prezzoMax: event.target.value }))}
-            />
-          </label>
+      <label>
+        Carburante
+        <select
+          value={filters.carburante}
+          onChange={(event) => setFilters((prev) => ({ ...prev, carburante: event.target.value }))}
+        >
+          <option value="">Tutti</option>
+          <option value="Benzina">Benzina</option>
+          <option value="Diesel">Diesel</option>
+          <option value="Elettrico">Elettrico</option>
+          <option value="Hybrid">Hybrid</option>
+        </select>
+      </label>
 
           <div className="divider" />
 
